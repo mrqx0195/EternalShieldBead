@@ -1,0 +1,1 @@
+# Eternal Shield Bead

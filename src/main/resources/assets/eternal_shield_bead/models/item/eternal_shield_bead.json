@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "eternal_shield_bead:item/eternal_shield_bead"
+  }
+}
