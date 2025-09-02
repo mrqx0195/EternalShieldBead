@@ -1,6 +1,8 @@
 package net.mrqx.protector;
 
 import com.mojang.logging.LogUtils;
+import net.minecraft.world.effect.MobEffect;
+import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
@@ -24,9 +26,14 @@ public class EternalShieldBead {
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, MODID);
     public static final RegistryObject<Item> ETERNAL_SHIELD_BEAD = ITEMS.register("eternal_shield_bead", ItemEternalShieldBead::new);
 
+    public static final DeferredRegister<MobEffect> MOB_EFFECTS = DeferredRegister.create(ForgeRegistries.MOB_EFFECTS, MODID);
+    public static final RegistryObject<MobEffect> ETERNAL_SHIELD = MOB_EFFECTS.register("eternal_shield", () -> new MobEffect(MobEffectCategory.BENEFICIAL, 0x000000) {
+    });
+
     public EternalShieldBead() {
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
         ITEMS.register(modEventBus);
+        MOB_EFFECTS.register(modEventBus);
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, Config.COMMON_CONFIG);
     }
 

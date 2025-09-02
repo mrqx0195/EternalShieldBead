@@ -3,6 +3,8 @@ package net.mrqx.protector;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
@@ -12,6 +14,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
 import net.minecraftforge.event.entity.living.LivingDamageEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
+import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -46,6 +49,8 @@ public class ItemEternalShieldBead extends Item {
                 }
                 player.getCooldowns().addCooldown(EternalShieldBead.ETERNAL_SHIELD_BEAD.get(), 20);
                 player.swing(InteractionHand.MAIN_HAND);
+                event.setCancellationResult(InteractionResult.SUCCESS);
+                event.setCanceled(true);
             }
         }
     }
@@ -76,6 +81,14 @@ public class ItemEternalShieldBead extends Item {
             if (attackerFlag) {
                 event.setAmount(event.getAmount() * living.getHealth() / living.getMaxHealth());
             }
+        }
+    }
+
+    @SubscribeEvent
+    public static void onLivingTickEvent(LivingEvent.LivingTickEvent event) {
+        boolean targetFlag = event.getEntity().getPersistentData().getBoolean(PROTECT_KEY);
+        if (targetFlag) {
+            event.getEntity().addEffect(new MobEffectInstance(EternalShieldBead.ETERNAL_SHIELD.get(), MobEffectInstance.INFINITE_DURATION, 0, false, false));
         }
     }
 }
