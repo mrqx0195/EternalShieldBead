@@ -89,6 +89,8 @@ public class ItemEternalShieldBead extends Item {
         boolean targetFlag = event.getEntity().getPersistentData().getBoolean(PROTECT_KEY);
         if (targetFlag) {
             event.getEntity().addEffect(new MobEffectInstance(EternalShieldBead.ETERNAL_SHIELD.get(), MobEffectInstance.INFINITE_DURATION, 0, false, false));
+        } else {
+            event.getEntity().removeEffect(EternalShieldBead.ETERNAL_SHIELD.get());
         }
     }
 }
